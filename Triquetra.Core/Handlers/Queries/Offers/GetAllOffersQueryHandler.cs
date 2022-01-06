@@ -3,7 +3,7 @@ using MediatR;
 using Triquetra.Domain.Data;
 using Triquetra.Domain.DTO.Offers;
 
-namespace Triquetra.Core.Handlers.Queries
+namespace Triquetra.Core.Handlers.Queries.Offers
 {
     public class GetAllOffersQuery : IRequest<IEnumerable<OfferDTO>>
     {
@@ -23,7 +23,7 @@ namespace Triquetra.Core.Handlers.Queries
         public async Task<IEnumerable<OfferDTO>> Handle(GetAllOffersQuery request, CancellationToken cancellationToken)
         {
             var entities = await Task.FromResult(_repository.Offers.GetAll());
-            return _mapper.Map<IEnumerable<OfferDTO>>(entities);
+            return _mapper.Map<IEnumerable<OfferDTO>>(entities).OrderByDescending(s => s.AddedOn);
         }
     }
 }

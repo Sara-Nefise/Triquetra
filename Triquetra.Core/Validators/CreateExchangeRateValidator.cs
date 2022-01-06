@@ -1,5 +1,4 @@
-﻿using Triquetra.Domain.DTO;
-using FluentValidation;
+﻿using FluentValidation;
 using Triquetra.Domain.DTO.ExchangeRates;
 
 namespace Triquetra.Core.Validators

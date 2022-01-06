@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Triquetra.Core.Exceptions;
 using Triquetra.Core.Handlers.Commands;
 using Triquetra.Core.Handlers.Queries;
+using Triquetra.Core.Handlers.Queries.ExchangeRates;
 using Triquetra.Domain.DTO;
-using Triquetra.Domain.DTO.Contracts;
 using Triquetra.Domain.DTO.ExchangeRates;
 
 namespace Triquetra.API.Controllers
@@ -22,8 +22,6 @@ namespace Triquetra.API.Controllers
         }
 
         [HttpGet]
-        //[ProducesResponseType(typeof(IEnumerable<ExchangeRateDTO>), (int) HttpStatusCode.OK)]
-        //[ProducesErrorResponseType(typeof(BaseResponseDTO))]
         public async Task<IEnumerable<ExchangeRateDTO>> Get()
         {
             var query = new GetAllExchangeRatesQuery();

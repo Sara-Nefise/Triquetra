@@ -20,10 +20,6 @@ namespace Triquetra.Migrations
             return base.SaveChangesAsync(cancellationToken);
         }
 
-        public DbSet<Material> Materials { get; set; }
-        public DbSet<MaterialUnit> MaterialUnits { get; set; }
-        public DbSet<Contract> Contracts { get; set; }
-        public DbSet<ContractMaterial> ContractMaterials { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
         public DbSet<Offer> Offers { get; set; }

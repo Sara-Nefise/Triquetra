@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Triquetra.Core.Exceptions;
 using Triquetra.Core.Handlers.Commands;
 using Triquetra.Core.Handlers.Queries;
+using Triquetra.Core.Handlers.Queries.Offers;
 using Triquetra.Domain.DTO;
-using Triquetra.Domain.DTO.Contracts;
 using Triquetra.Domain.DTO.Offers;
 using Triquetra.Providers.Handlers.Queries;
 

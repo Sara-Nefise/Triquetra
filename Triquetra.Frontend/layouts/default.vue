@@ -50,7 +50,7 @@
         </v-btn>
       </v-toolbar-title>
       <v-divider vertical class="mx-5" />
-      <v-toolbar-title>gunesirketi@gmail.com</v-toolbar-title>
+      <v-toolbar-title>gunes.sirketi@gmail.com</v-toolbar-title>
     </v-app-bar>
     <v-main>
       <v-container>
@@ -98,12 +98,12 @@ export default {
           icon: 'mdi-cart-outline',
           title: 'Sepet',
           to: '/cart'
+        },
+        {
+          icon: 'mdi-playlist-check',
+          title: 'Geçmiş Teklifler',
+          to: '/previous-offers'
         }
-        // {
-        //   icon: 'mdi-file-document-outline',
-        //   title: 'Teklif',
-        //   to: '/offer'
-        // }
       ],
       miniVariant: false,
       right: true,

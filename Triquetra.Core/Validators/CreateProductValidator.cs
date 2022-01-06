@@ -1,6 +1,5 @@
 ﻿using Triquetra.Domain.DTO;
 using FluentValidation;
-using Triquetra.Domain.DTO.Contracts;
 using Triquetra.Domain.DTO.Products;
 
 namespace Triquetra.Core.Validators

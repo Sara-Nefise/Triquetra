@@ -3,7 +3,7 @@ using MediatR;
 using Triquetra.Domain.Data;
 using Triquetra.Domain.DTO.ProductTypes;
 
-namespace Triquetra.Core.Handlers.Queries
+namespace Triquetra.Core.Handlers.Queries.ProductTypes
 {
     public class GetAllProductTypesQuery : IRequest<IEnumerable<ProductTypeDTO>>
     {
@@ -20,7 +20,8 @@ namespace Triquetra.Core.Handlers.Queries
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ProductTypeDTO>> Handle(GetAllProductTypesQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ProductTypeDTO>> Handle(GetAllProductTypesQuery request,
+            CancellationToken cancellationToken)
         {
             var entities = await Task.FromResult(_repository.ProductTypes.GetAll());
             return _mapper.Map<IEnumerable<ProductTypeDTO>>(entities);

@@ -14,6 +14,9 @@
           </v-btn>
         </v-col>
         <v-spacer />
+        <v-col>
+          <CurrentDate />
+        </v-col>
       </v-row>
       <v-row>
         <v-col v-for="inverter in inverters" :key="inverter.name" cols="2">
@@ -143,7 +146,10 @@
             </v-card-text>
           </v-card>
         </v-col>
-        <v-col cols="6" />
+        <v-spacer />
+        <v-col>
+          <CurrentDate />
+        </v-col>
       </v-row>
       <v-row class="mt-5">
         <v-col />
@@ -201,7 +207,37 @@
             </v-card-text>
           </v-card>
         </v-col>
-        <v-col />
+        <v-spacer />
+        <v-col>
+          <CurrentDate />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col style="text-align: center" cols="3">
+          <v-alert type="info" outlined dense>
+            İSKONTO ORANI <br>GİRİNİZ.
+          </v-alert>
+        </v-col>
+        <v-col align-self="center" cols="2">
+          <v-text-field
+            v-model="offer.discountRate"
+            hide-details
+            label="İskonto Oranı (%)"
+            type="number"
+            dense
+            outlined
+          />
+        </v-col>
+        <v-col cols="3" align-self="center">
+          <v-btn color="primary" outlined @click="addDiscount">
+            Kaydet
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-alert max-width="300px" type="success" v-if="offer.discountedPriceTL > 0">İNDİRİMLİ FİYAT: {{ offer.discountedPriceTL.toFixed(2) }} TL</v-alert>
+        </v-col>
       </v-row>
     </div>
   </v-container>
@@ -221,7 +257,9 @@ export default {
       step: 0,
       exchangeRates: [],
       lastExchangeRate: 0,
-      offer: {}
+      offer: {},
+      offerId: 0,
+      model: {}
     }
   },
   computed: {
@@ -281,7 +319,7 @@ export default {
       return total.toFixed(2)
     },
     saveOffer () {
-      let model = {
+      this.model = {
         SetupArea: 0,
         PanelCount: 0,
         InverterCount: 0,
@@ -291,23 +329,37 @@ export default {
       for (let i = 0; i < this.cart.length; i++) {
         const item = this.cart[i]
         if (item.productTypeId === 2) {
-          model.SetupArea += item.size
-          model.PanelCount += 1
+          this.model.SetupArea += item.size
+          this.model.PanelCount += 1
         } else if (item.productTypeId === 1) {
-          model.InverterCount += 1
+          this.model.InverterCount += 1
         }
-        model.TotalPriceDollar += item.dollarPrice
-        model.TotalPriceTL += item.dollarPrice * this.lastExchangeRate
+        this.model.TotalPriceDollar += item.dollarPrice
+        this.model.TotalPriceTL += item.dollarPrice * this.lastExchangeRate
       }
-      apiservice.post('api/Offer', model).then((data) => {
+      apiservice.post('api/Offer', this.model).then((data) => {
         this.getOffer(data.data)
-        model = {}
-      }).catch(() => {
+        this.offerId = data.data
+      }).catch((ex) => {
+        console.log(ex)
       })
     },
     getOffer (id) {
       apiservice.get('api/Offer/' + id).then((data) => {
         this.offer = data.data
+      }).catch(() => {
+      })
+    },
+    addDiscount () {
+      this.model.Id = this.offerId
+      if (this.offer.discountRate > 20) {
+        alert("İskonto %20'den fazla olamaz")
+        return
+      }
+      this.model.DiscountRate = this.offer.discountRate
+      apiservice.post('api/Offer', this.model).then((data) => {
+        this.getOffer(this.offerId)
+        alert('Kaydedildi')
       }).catch(() => {
       })
     }

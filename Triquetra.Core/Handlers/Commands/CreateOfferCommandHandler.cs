@@ -9,11 +9,12 @@ namespace Triquetra.Core.Handlers.Commands
 {
     public class CreateOfferCommand : IRequest<int>
     {
+        public int Id { get; set; }
         public CreateOfferDTO Model { get; }
 
         public CreateOfferCommand(CreateOfferDTO model)
         {
-            this.Model = model;
+            Model = model;
         }
     }
 
@@ -32,7 +33,7 @@ namespace Triquetra.Core.Handlers.Commands
         {
             var model = request.Model;
 
-            var result = _validator.Validate(model);
+            var result = await _validator.ValidateAsync(model, cancellationToken);
 
             if (!result.IsValid)
             {
@@ -43,19 +44,34 @@ namespace Triquetra.Core.Handlers.Commands
                 };
             }
 
-            var entity = new Offer
+            if (model.Id > 0)
             {
-                SetupArea = model.SetupArea,
-                PanelCount = model.PanelCount,
-                InverterCount = model.InverterCount,
-                TotalPriceDollar = model.TotalPriceDollar,
-                TotalPriceTL = model.TotalPriceTL
-            };
+                var offer = await Task.FromResult(_repository.Offers.Get(request.Model.Id));
+                offer.DiscountRate = model.DiscountRate;
+                offer.DiscountedPriceTL = model.TotalPriceTL - model.TotalPriceTL * model.DiscountRate / 100;
+                _repository.Offers.Update(offer);
+                await _repository.CommitAsync();
 
-            _repository.Offers.Add(entity);
-            await _repository.CommitAsync();
+            }
+            else
+            {
+                var entity = new Offer
+                {
+                    SetupArea = model.SetupArea,
+                    PanelCount = model.PanelCount,
+                    InverterCount = model.InverterCount,
+                    TotalPriceDollar = model.TotalPriceDollar,
+                    TotalPriceTL = model.TotalPriceTL,
+                    DiscountRate = model.DiscountRate,
+                    DiscountedPriceTL = model.DiscountedPriceTL
+                };
 
-            return entity.Id;
+                _repository.Offers.Add(entity);
+                await _repository.CommitAsync();
+                request.Id = entity.Id;
+            }
+
+            return request.Id;
         }
     }
 }

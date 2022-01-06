@@ -3,7 +3,7 @@ using MediatR;
 using Triquetra.Domain.Data;
 using Triquetra.Domain.DTO.ExchangeRates;
 
-namespace Triquetra.Core.Handlers.Queries
+namespace Triquetra.Core.Handlers.Queries.ExchangeRates
 {
     public class GetAllExchangeRatesQuery : IRequest<IEnumerable<ExchangeRateDTO>>
     {

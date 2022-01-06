@@ -1,10 +1,7 @@
-using System.Net;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Triquetra.Core.Exceptions;
-using Triquetra.Core.Handlers.Commands;
 using Triquetra.Core.Handlers.Queries;
-using Triquetra.Domain.DTO;
+using Triquetra.Core.Handlers.Queries.ProductTypes;
 using Triquetra.Domain.DTO.ProductTypes;
 
 namespace Triquetra.API.Controllers

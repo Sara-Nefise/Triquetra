@@ -34,7 +34,7 @@ namespace Triquetra.Providers.Handlers.Queries
 
             if (offer == null)
             {
-                throw new EntityNotFoundException($"No Offer found for Id {request.OfferId}");
+                throw new EntityNotFoundException($"{request.OfferId} Id'li teklif bulunamadı.");
             }
 
             return _mapper.Map<OfferDTO>(offer);

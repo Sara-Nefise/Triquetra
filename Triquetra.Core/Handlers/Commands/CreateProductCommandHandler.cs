@@ -13,7 +13,7 @@ namespace Triquetra.Core.Handlers.Commands
 
         public CreateProductCommand(CreateProductDTO model)
         {
-            this.Model = model;
+            Model = model;
         }
     }
 
@@ -32,7 +32,7 @@ namespace Triquetra.Core.Handlers.Commands
         {
             var model = request.Model;
 
-            var result = _validator.Validate(model);
+            var result = await _validator.ValidateAsync(model, cancellationToken);
 
             if (!result.IsValid)
             {

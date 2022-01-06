@@ -2,7 +2,7 @@
 {
     public abstract class BaseEntity
     {
-        public virtual int Id { get; set; }
-        public virtual DateTime AddedOn { get; set; }
+        public int Id { get; set; }
+        public DateTime AddedOn { get; set; }
     }
 }
